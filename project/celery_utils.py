@@ -1,6 +1,6 @@
 from celery import current_app as current_celery_app
 
-from app.project.config import settings
+from project.config import settings
 
 
 def create_celery():

@@ -17,6 +17,7 @@ ruff = "^0.4.8"
 loguru = "^0.7.2"
 flower = "^2.0.1"
 alembic = "^1.13.1"
+psycopg2-binary = "^2.9.9"
 
 
 [build-system]

@@ -4,5 +4,5 @@ users_router = APIRouter(
     prefix="/users"
 )
 
-from app.project.users import models, tasks
+from project.users import models, tasks
 

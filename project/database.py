@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-from app.project.config import settings
+from project.config import settings
 
 # https://fastapi.tiangolo.com/tutorial/sql-databases/#create-the-sqlalchemy-engine
 engine = create_engine (

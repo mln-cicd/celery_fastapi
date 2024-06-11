@@ -1,5 +1,4 @@
-from app import create_app
-from celery import Celery
+from project import create_app
 from loguru import logger
 
 
