@@ -45,6 +45,8 @@ services:
     depends_on:
       - redis
       - db
+    ports:
+      - "6899:6899"  # Expose the debugger port
 
   celery_beat:
     build:
