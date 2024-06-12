@@ -11,7 +11,7 @@ from fastapi.templating import Jinja2Templates
 
 from project.users import users_router
 from project.users.schemas import UserBody
-from project.users.tasks import sample_task
+from project.users.tasks import sample_task, task_process_notification
 
 
 templates = Jinja2Templates(directory="project/users/templates")
@@ -58,3 +58,23 @@ def task_status(task_id: str):
             'state': state,
         }
     return JSONResponse(response)
+
+
+@users_router.post("/webhook_test/")
+def webhook_test():
+    if not random.choice([0, 1]):
+        raise Exception()
+    
+    requests.post("https://httpbin.org/delay/5")
+    return "pong"
+
+@users_router.post("/webhook_test_async/")
+def webhook_test_async():
+    task = task_process_notification.delay()
+    logger.info(task.id)
+    return "pong"
+
+@users_router.get("/form_ws/")
+def form_ws_example(request: Request):
+    return templates.TemplateResponse("form_ws.html", {"request": request})
+
