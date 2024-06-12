@@ -22,7 +22,11 @@ def divide(x, y):
 def sample_task(email):
     from project.users.views import api_call
 
-    api_call(email)
+    try:
+        api_call(email)
+    except Exception as e:
+        logger.error(f"Error in sample_task: {e}")
+        raise e
     
     
     

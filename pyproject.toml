@@ -23,6 +23,7 @@ requests = "^2.32.3"
 asgiref = "^3.8.1"
 asyncio-redis = "^0.16.0"
 broadcaster = "^0.2.0"
+aioredis = "^2.0.1"
 
 
 [build-system]

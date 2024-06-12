@@ -20,7 +20,6 @@ async def ws_task_status(websocket: WebSocket):
         async for event in subscriber:
             await websocket.send_json(json.loads(event.message))
 
-
 async def update_celery_task_status(task_id: str):
     """
     This function is called by Celery worker in task_postrun signal handler

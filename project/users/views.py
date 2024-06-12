@@ -23,11 +23,8 @@ def random_username():
 
 
 def api_call(email: str):
-    # used for testing a failed api call
     if random.choice([0, 1]):
         raise Exception("random processing error")
-
-    # used for simulating a call to a third-party api
     requests.post("https://httpbin.org/delay/5")
 
 
