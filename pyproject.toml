@@ -19,6 +19,7 @@ flower = "^2.0.1"
 alembic = "^1.13.1"
 psycopg2-binary = "^2.9.9"
 watchfiles = "^0.22.0"
+requests = "^2.32.3"
 
 
 [build-system]
