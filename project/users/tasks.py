@@ -2,10 +2,11 @@ from celery import shared_task
 from celery.utils.log import get_task_logger
 import random
 import requests
-from loguru import logger
 from asgiref.sync import async_to_sync
 from celery.signals import task_postrun
+import logging
 
+logger = logging.getLogger(__name__)
 
 task_logger = get_task_logger(__name__)
 
@@ -106,3 +107,8 @@ def task_send_welcome_email(user_pk):
     with db_context() as session:
         user = session.get(User, user_pk)
         logger.info(f"send email to {user.email} {user.id}")
+   
+   
+@shared_task()
+def task_test_logger():
+    logger.info("test")

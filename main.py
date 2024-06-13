@@ -1,6 +1,7 @@
 from project import create_app
-from loguru import logger
+import logging
 
+logger = logging.getLogger(__name__)
 
 app = create_app()
 celery = app.celery_app

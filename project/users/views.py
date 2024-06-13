@@ -1,4 +1,3 @@
-from loguru import logger
 import random
 from string import ascii_lowercase
 
@@ -13,6 +12,9 @@ from project.users import users_router
 from project.users.schemas import UserBody
 from project.users.tasks import sample_task, task_process_notification
 
+import logging
+
+logger = logging.getLogger(__name__)
 
 templates = Jinja2Templates(directory="project/users/templates")
 
