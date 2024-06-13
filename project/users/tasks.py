@@ -30,15 +30,15 @@ def sample_task(email):
     
     
     
-@shared_task(bind=True)
-def task_process_notification(self):
-    try:
-        if not random.choice([0, 1]):
-            raise Exception()
-        requests.post("https://httpbin.org/delay/5")
-    except Exception as e:
-        task_logger.error("exception raised, will retry after 5 seconds...")
-        raise self.retry(exc=e, countdown=5)
+# @shared_task(bind=True)
+# def task_process_notification(self):
+#     try:
+#         if not random.choice([0, 1]):
+#             raise Exception()
+#         requests.post("https://httpbin.org/delay/5")
+#     except Exception as e:
+#         task_logger.error("exception raised, will retry after 5 seconds...")
+#         raise self.retry(exc=e, countdown=5)
     
     
 
@@ -69,3 +69,31 @@ def dynamic_example_two():
 @shared_task(name="high_priority:dynamic_example_three")
 def dynamic_example_three():
     logger.info("Example Three")
+    
+    
+@shared_task(
+    bind=True, autoretry_for=(Exception,), 
+    retry_kwargs={"max_retries": 7, "countdown": 5},
+    retry_backoff=True, # can be also a number of use as delay factor like 5
+    random_jitter=True # adds random delay to avoid synced retries, defaulted to True
+)
+def task_process_notification(self):
+    if not random.choice([0, 1]):
+        raise Exception()
+    requests.post("https://httpbin.org/delay/5")
+    
+    
+"""
+A class can also be used to pass retry parameters
+class BaseTaskWithRetry(celery.Task):
+    autoretry_for = (Exception, KeyError)
+    retry_kwargs = {"max_retries": 5}
+    retry_backoff = True
+
+
+@shared_task(bind=True, base=BaseTaskWithRetry)
+def task_process_notification(self):
+    raise Exception()
+"""
+    
+        
