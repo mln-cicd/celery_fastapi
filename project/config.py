@@ -14,7 +14,13 @@ class BaseConfig:
     WS_MESSAGE_QUEUE: str = os.environ.get("WS_MESSAGE_QUEUE", "redis://127.0.0.1:6379/0")
 
     #CELERY_TASK_ALWAYS_EAGER: bool = True
-    
+
+    CELERY_BEAT_SCHEDULE: dict = {
+        "task_schedule_work": {
+            "task": "task_schedule_work",
+            "schedule": 5.0 # 5 seconds
+        },
+    }    
 
 
 class DevelopmentConfig(BaseConfig):
