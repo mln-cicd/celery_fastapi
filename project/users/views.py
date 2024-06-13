@@ -110,3 +110,27 @@ def transaction_celery(session: Session = Depends(get_db_session)):
     logger.info(f"User {user.id} {user.username} is persistent now")
     task_send_welcome_email.delay(user.id)
     return {"message": "done"}
+
+
+
+### Part 2 / pytest ###
+
+from project.users.tasks import task_add_subscribe
+
+@users_router.post("/user_subscribe/")
+def user_subscribe(
+    user_body: UserBody,
+    session: Session = Depends(get_db_session)
+):
+    with session.begin():
+        user = session.query(User).filter_by(
+            username=user_body.username
+        ).first()
+        if not user:
+            user =  User(
+                username=user_body.username,
+                email=user_body.email,
+            )
+            session.add(user)
+    task_add_subscribe.delay(user.id)
+    return {"message": "send task to Celery successfully"}
