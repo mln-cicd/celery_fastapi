@@ -81,3 +81,30 @@ def form_ws_example(request: Request):
 @users_router.get("/form_socketio/")
 def form_socketio_example(request: Request):
     return templates.TemplateResponse("form_socketio.html", {"request": request})
+
+
+
+
+import random
+from string import ascii_lowercase
+from project.users.models import User
+from project.database import get_db_session
+from project.users.tasks import task_send_welcome_email
+from sqlalchemy.orm import Session
+from fastapi import Depends
+
+
+
+@users_router.get("/transaction_celery/")
+def transaction_celery(session: Session = Depends(get_db_session)):
+    username = random_username()
+    user = User(
+        username=f"{username}",
+        email=f"{username}@test.com"
+    )
+    with session.begin():
+        session.add(user)
+        
+    logger.info(f"User {user.id} {user.username} is persistent now")
+    task_send_welcome_email.delay(user.id)
+    return {"message": "done"}

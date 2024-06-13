@@ -97,3 +97,12 @@ def task_process_notification(self):
 """
     
         
+from project.database import db_context
+     
+@shared_task()
+def task_send_welcome_email(user_pk):
+    from project.users.models import User
+    
+    with db_context() as session:
+        user = session.get(User, user_pk)
+        logger.info(f"send email to {user.email} {user.id}")
