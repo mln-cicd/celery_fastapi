@@ -23,8 +23,8 @@ def random_username():
 
 
 def api_call(email: str):
-    if random.choice([0, 1]):
-        raise Exception("random processing error")
+    # if random.choice([0, 1]):
+    #     raise Exception("random processing error")
     requests.post("https://httpbin.org/delay/5")
 
 
@@ -65,13 +65,19 @@ def webhook_test():
     requests.post("https://httpbin.org/delay/5")
     return "pong"
 
+
 @users_router.post("/webhook_test_async/")
 def webhook_test_async():
     task = task_process_notification.delay()
     logger.info(task.id)
     return "pong"
 
+
 @users_router.get("/form_ws/")
 def form_ws_example(request: Request):
     return templates.TemplateResponse("form_ws.html", {"request": request})
 
+
+@users_router.get("/form_socketio/")
+def form_socketio_example(request: Request):
+    return templates.TemplateResponse("form_socketio.html", {"request": request})
